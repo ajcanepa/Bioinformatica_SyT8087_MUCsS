@@ -1,0 +1,28 @@
+---
+title: "R Notebook de la asignatura de BioInformática"
+output: html_notebook
+---
+
+Lo primero que necesitaremos será instalar el paquete de R que nos permitirá trabjar con datos de secuencia
+
+```{r warning=FALSE, message=FALSE}
+#install.packages("bioseq")
+library(bioseq)
+```
+
+
+Sacar la información de [aquí](https://cran.r-project.org/web/packages/bioseq/vignettes/intro-bioseq.html) 
+
+```{r}
+x_dna <- dna("ATGTCACCACAAACAGAGACT")
+x_dna
+```
+
+```{r}
+x_rna <- seq_transcribe(x_dna)
+x_rna
+```
+
+Intentar que los alumnos hagan lo que aparece acá...jajajaj
+[https://cran.r-project.org/web/packages/bioseq/vignettes/ref_database.html](https://cran.r-project.org/web/packages/bioseq/vignettes/ref_database.html)
+
