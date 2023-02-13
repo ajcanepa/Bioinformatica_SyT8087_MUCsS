@@ -1,8 +1,19 @@
 ---
-title: "R Notebook de la asignatura de BioInformática"
-output: html_notebook
+title:    | 
+ | BioInformática (Salud y Tecnología)
+ | Máster Universitario en Ciencias de la Salud
+author:    | 
+ | **Antonio Canepa, Ph.D.**
+ | *[email](mailto:ajcanepa@ubu.es)* // [twitter](https://twitter.com/OMDataScience)
+output:
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_float: yes
+always_allow_html: true
 ---
 
+# 1.- Introducción
 Lo primero que necesitaremos será instalar el paquete de R que nos permitirá trabjar con datos de secuencia
 
 ```{r warning=FALSE, message=FALSE}
@@ -21,17 +32,31 @@ str(seq_dna)
 ```
 
 ```{r}
-contar_nucleotidos <- function(seq_dna = seq_dna){
-  conteo_nucleotidos = unlist(strsplit(x = seq_dna, split = "", fixed = TRUE))
+contar_nucleotidos <- function(secuencia_dna = seq_dna){
+  conteo_nucleotidos = unlist(strsplit(x = secuencia_dna, split = "", fixed = TRUE))
   print(table(conteo_nucleotidos))
 }
 ```
 
 ```{r}
-contar_nucleotidos(seq_dna = seq_dna)
+contar_nucleotidos(secuencia_dna = seq_dna)
+```
+# 2.- Cadena complementaria
+
+Sacar la información de [aquí](https://cran.r-project.org/web/packages/bioseq/vignettes/intro-bioseq.html) 
+
+```{r}
+# library(bioseq)
+x_dna <- dna(seq_dna)
+x_dna
 ```
 
-# 2.- Transcripción
+```{r}
+seq_complement(x_dna)
+```
+
+
+# 3.- Transcripción
 
 ```{r}
 Transcripcion <- function(seq_dna = seq_dna){
@@ -48,34 +73,155 @@ print(Transcripcion(seq_dna = seq_dna))
 ```
 
 
-
-Sacar la información de [aquí](https://cran.r-project.org/web/packages/bioseq/vignettes/intro-bioseq.html) 
-
-```{r}
-x_dna <- dna(seq_dna)
-x_dna
-```
-
-```{r}
-str(x_dna)
-```
-
-```{r}
-
-```
-
-
-```{r}
-x_dna[[1]]
-```
-
-
-
 ```{r}
 x_rna <- seq_transcribe(x_dna)
 x_rna
 ```
 
-Intentar que los alumnos hagan lo que aparece acá...jajajaj
-[https://cran.r-project.org/web/packages/bioseq/vignettes/ref_database.html](https://cran.r-project.org/web/packages/bioseq/vignettes/ref_database.html)
+# 4.- Caso Práctico
+Este caso práctico está basado en una de las ayudas del paquete `bioseq` que se puede visitar [aquí](https://cran.r-project.org/web/packages/bioseq/vignettes/ref_database.html).
 
+
+```{r warning=FALSE, message=FALSE}
+library(bioseq)
+library(tidyverse)
+```
+
+Los datos genéticos suelen entregarse en formato FASTA. En este ejemplo utilizaremos secuencias rbcL de especies de Fragilaria recuperadas del NCBI y disponibles directamente como FASTA sin analizar en el paquete. Podemos utilizar la función read_fasta para leer directamente un archivo FASTA en R. Aquí leemos un vector de caracteres ya disponible en R, pero la mayoría de las veces el argumento file se utilizará para pasar una ruta a un archivo disponible localmente o a través de la red.
+
+```{r}
+data(fragilaria, package = "bioseq")
+fra_data <- read_fasta(fragilaria)
+
+fra_data
+```
+Según el resultado, tenemos un vector de ADN con 41 secuencias. Estas secuencias se obtuvieron directamente del NCBI. Por lo tanto, no están alineadas y tienen diferentes longitudes. Es fácil obtener el rango de longitudes con el siguiente comando:
+
+```{r}
+seq_nchar(fra_data) %>% range()
+```
+
+A continuación, utilizaremos la función as_tibble para convertir el vector ADN en un tibble con dos columnas (una para los nombres y otra para las secuencias). También limpiaremos los nombres y los dividiremos en dos columnas. Finalmente creamos una columna extra con la longitud (número de caracteres) de cada secuencia
+
+```{r}
+fra_data <- tibble(label = names(fra_data), sequence = fra_data)
+
+fra_data <- fra_data %>% 
+  mutate(genbank_id = str_extract(label, "([^\\s]+)"),
+         taxa = str_extract(label, "(?<= ).*")) %>% 
+  select(genbank_id, taxa, sequence)
+
+fra_data <- fra_data %>% 
+  mutate(n_base = seq_nchar(sequence))
+
+fra_data
+```
+### 4.1 Recorte de secuencias
+En este ejemplo sólo estamos interesados en una región concreta de las secuencias, un fragmento corto utilizado en muchos estudios de metabarcodificación de diatomeas. Para extraer la región de interés podemos proporcionar la posición de dos nucleótidos, pero esta solución requiere que las secuencias estén alineadas. La solución alternativa consiste en extraer utilizando patrones de nucleótidos. En este caso, utilizaremos los cebadores directo e inverso que delimitan la región del código de barras para recortar las secuencias. En primer lugar, creamos dos vectores de ADN, uno para los cebadores directo e inverso:
+
+```{r}
+FWD <- dna("AGGTGAAGTAAAAGGTTCWTACTTAAA",
+           "AGGTGAAGTTAAAGGTTCWTAYTTAAA",
+           "AGGTGAAACTAAAGGTTCWTACTTAAA")
+
+REV <- dna("CAGTWGTWGGTAAATTAGAAGG",
+           "CTGTTGTWGGTAAATTAGAAGG")
+```
+
+Se habrá dado cuenta de que algunos caracteres de los cebadores son ambiguos, lo que significa que pueden representar varios nucleótidos. Para obtener todas las combinaciones representadas por esas secuencias ambiguas de cebadores podemos utilizar la función seq_disambiguate_IUPAC(). Por ejemplo, para los cebadores delanteros:
+
+```{r}
+seq_disambiguate_IUPAC(FWD)
+```
+
+Podemos ver que las tres secuencias ambiguas utilizadas como cebadores delanteros representan en realidad ocho secuencias diferentes. Afortunadamente, las funciones de bioseq pueden reconocer automáticamente los nucleótidos ambiguos e interpretarlos como tales. Por ello, siempre que sea posible, se recomienda construir vectores de ADN/ARN/AA en lugar de vectores de caracteres simples.
+
+Ahora recortamos las secuencias utilizando los cebadores directo e inverso como delimitadores. Podemos esperar que las secuencias devueltas se alineen porque corresponden a una región muy específica con una longitud fija.
+
+```{r}
+fra_data <- fra_data %>% 
+  mutate(barcode = seq_crop_pattern(sequence,
+                                    pattern_in = list(FWD),
+                                    pattern_out = list(REV)))
+
+fra_data
+```
+
+Como era de esperar, las secuencias del código de barras parecen estar alineadas. También podemos ver que esta operación ha producido varios NA que corresponden a secuencias en las que no se detectaron los cebadores, probablemente porque la región del código de barras no estaba incluida en la secuencia. Podríamos simplemente excluir los valores NA, pero es más seguro filtrar sólo las secuencias cuya longitud coincide exactamente con la longitud esperada del código de barras (es decir, 312 pb).
+
+```{r}
+fra_data <- fra_data %>% 
+  filter(seq_nchar(barcode) == 312)
+
+fra_data
+```
+
+### 4.2 Secuencias de consenso y filogenia
+Ahora queremos reconstruir un árbol filogenético para las secuencias. Podemos incluir todas las secuencias en el árbol, pero para mayor claridad queremos mantener sólo una secuencia por taxón. En lugar de seleccionar una secuencia al azar, calculamos una secuencia de consenso para cada taxón utilizando la función seq_consensus(). Hay diferentes métodos para calcular una secuencia de consenso implementados en la función, puede consultar el manual para más detalles. El método por defecto utilizado a continuación utiliza la regla de la mayoría.
+
+```{r}
+fra_consensus <- fra_data %>% 
+  group_by(taxa) %>% 
+  summarise(consensus_barcode = seq_consensus(barcode))
+
+fra_consensus
+```
+
+A continuación, utilizaremos ape para hacer una rápida reconstrucción filogenética de estas secuencias. Podemos utilizar la función as_DNAbin para convertir un tibble en un objeto DNAbin y luego utilizar las funciones de ape para reconstruir y trazar un árbol filogenético con el algoritmo BIONJ basado en distancias.
+
+
+```{r message=FALSE, warning=FALSE}
+fra_consensus %>% 
+  as_DNAbin(consensus_barcode, taxa) %>% 
+  ape::dist.dna() %>% 
+  ape::bionj() %>% 
+  plot()
+```
+### 4.3 Agrupación de secuencias
+El árbol anterior sugiere que varias secuencias son exactamente iguales. Esto puede evaluarse rápidamente:
+
+```{r warning=FALSE, message=FALSE}
+duplicated(fra_consensus$consensus_barcode)
+```
+
+De hecho, varias secuencias están duplicadas y es posible que queramos conservar sólo las secuencias únicas. Podríamos seleccionar sólo las secuencias únicas, pero en este caso utilizaremos la función seq_cluster para agrupar las secuencias en función de su similitud.
+
+```{r}
+fra_consensus <- 
+  fra_consensus %>% 
+  mutate(cluster = seq_cluster(consensus_barcode,
+                               threshold = 0.001))
+fra_consensus
+```
+
+Por último, volvemos a calcular una secuencia consenso para cada grupo y reconstruimos el árbol filogenético.
+
+```{r warning=FALSE, message=FALSE}
+fra_consensus <-
+  fra_consensus %>% 
+  group_by(cluster) %>% 
+  summarise(taxa_group = paste(taxa, collapse = "/"),
+            consensus_barcode = seq_consensus(consensus_barcode))
+
+fra_consensus
+```
+
+
+```{r message=FALSE, warning=FALSE}
+fra_consensus %>% 
+  as_DNAbin(consensus_barcode, taxa_group) %>% 
+  ape::dist.dna() %>% 
+  ape::bionj() %>% 
+  plot()
+```
+Es importante señalar que este árbol no es una reconstrucción filogenética exacta, pero puede ayudar a visualizar las relaciones jerárquicas entre las secuencias. Esto es especialmente útil con conjuntos de datos más grandes para detectar clados polifiléticos no resueltos por la región del código de barras.
+
+### 4.4 Exportar datos
+Cuando estamos contentos con los resultados, normalmente queremos exportar los datos. En este caso, podríamos exportar directamente el marco de datos utilizando write_csv(). Sin embargo, podría ser más conveniente exportar secuencias en FASTA para abrirlas en otro software más tarde. Esto se puede conseguir utilizando la función write_fasta().
+
+```{r warning=FALSE, message=FALSE}
+fra_consensus %>% 
+  select(taxa_group, consensus_barcode) %>% 
+  deframe() %>% 
+  write_fasta("my_sequences.fasta")
+```
