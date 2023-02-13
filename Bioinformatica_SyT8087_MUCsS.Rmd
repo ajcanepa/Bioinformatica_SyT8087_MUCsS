@@ -11,12 +11,65 @@ library(bioseq)
 ```
 
 
+```{r}
+seq_dna <- c("ATGTCACCACAAACAGAGACT")
+seq_dna
+```
+
+```{r}
+str(seq_dna)
+```
+
+```{r}
+contar_nucleotidos <- function(seq_dna = seq_dna){
+  conteo_nucleotidos = unlist(strsplit(x = seq_dna, split = "", fixed = TRUE))
+  print(table(conteo_nucleotidos))
+}
+```
+
+```{r}
+contar_nucleotidos(seq_dna = seq_dna)
+```
+
+# 2.- Transcripción
+
+```{r}
+Transcripcion <- function(seq_dna = seq_dna){
+  seq_dna = unlist(strsplit(x = seq_dna, split = "", fixed = TRUE))
+ seq_arn = stringr::str_replace_all(seq_dna, "T", "U")
+ return(seq_arn)
+}
+```
+
+
+```{r}
+print(seq_dna)
+print(Transcripcion(seq_dna = seq_dna))
+```
+
+
+
 Sacar la información de [aquí](https://cran.r-project.org/web/packages/bioseq/vignettes/intro-bioseq.html) 
 
 ```{r}
-x_dna <- dna("ATGTCACCACAAACAGAGACT")
+x_dna <- dna(seq_dna)
 x_dna
 ```
+
+```{r}
+str(x_dna)
+```
+
+```{r}
+
+```
+
+
+```{r}
+x_dna[[1]]
+```
+
+
 
 ```{r}
 x_rna <- seq_transcribe(x_dna)

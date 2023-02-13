@@ -1763,12 +1763,109 @@ library(bioseq)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2VxX2RuYSA8LSBjKFwiQVRHVENBQ0NBQ0FBQUNBR0FHQUNUXCIpXG5zZXFfZG5hXG5gYGAifQ== -->
+<pre class="r"><code>seq_dna &lt;- c(&quot;ATGTCACCACAAACAGAGACT&quot;)
+seq_dna</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiQVRHVENBQ0NBQ0FBQUNBR0FHQUNUXCJcbiJ9 -->
+<pre><code>[1] &quot;ATGTCACCACAAACAGAGACT&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKHNlcV9kbmEpXG5gYGAifQ== -->
+<pre class="r"><code>str(seq_dna)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIGNociBcIkFUR1RDQUNDQUNBQUFDQUdBR0FDVFwiXG4ifQ== -->
+<pre><code> chr &quot;ATGTCACCACAAACAGAGACT&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29udGFyX251Y2xlb3RpZG9zIDwtIGZ1bmN0aW9uKHNlcV9kbmEgPSBzZXFfZG5hKXtcbiAgY29udGVvX251Y2xlb3RpZG9zID0gdW5saXN0KHN0cnNwbGl0KHggPSBzZXFfZG5hLCBzcGxpdCA9IFwiXCIsIGZpeGVkID0gVFJVRSkpXG4gIHByaW50KHRhYmxlKGNvbnRlb19udWNsZW90aWRvcykpXG59XG5gYGAifQ== -->
+<pre class="r"><code>contar_nucleotidos &lt;- function(seq_dna = seq_dna){
+  conteo_nucleotidos = unlist(strsplit(x = seq_dna, split = &quot;&quot;, fixed = TRUE))
+  print(table(conteo_nucleotidos))
+}</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29udGFyX251Y2xlb3RpZG9zKHNlcV9kbmEgPSBzZXFfZG5hKVxuYGBgIn0= -->
+<pre class="r"><code>contar_nucleotidos(seq_dna = seq_dna)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiY29udGVvX251Y2xlb3RpZG9zXG5BIEMgRyBUIFxuOSA2IDMgMyBcbiJ9 -->
+<pre><code>conteo_nucleotidos
+A C G T 
+9 6 3 3 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="transcripción" class="section level1">
+<h1>2.- Transcripción</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuVHJhbnNjcmlwY2lvbiA8LSBmdW5jdGlvbihzZXFfZG5hID0gc2VxX2RuYSl7XG4gIHNlcV9kbmEgPSB1bmxpc3Qoc3Ryc3BsaXQoeCA9IHNlcV9kbmEsIHNwbGl0ID0gXCJcIiwgZml4ZWQgPSBUUlVFKSlcbiBzZXFfYXJuID0gc3RyaW5ncjo6c3RyX3JlcGxhY2VfYWxsKHNlcV9kbmEsIFwiVFwiLCBcIlVcIilcbiByZXR1cm4oc2VxX2Fybilcbn1cbmBgYCJ9 -->
+<pre class="r"><code>Transcripcion &lt;- function(seq_dna = seq_dna){
+  seq_dna = unlist(strsplit(x = seq_dna, split = &quot;&quot;, fixed = TRUE))
+ seq_arn = stringr::str_replace_all(seq_dna, &quot;T&quot;, &quot;U&quot;)
+ return(seq_arn)
+}</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQoc2VxX2RuYSlcbmBgYCJ9 -->
+<pre class="r"><code>print(seq_dna)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcIkFcIiBcIlRcIiBcIkdcIiBcIlRcIiBcIkNcIiBcIkFcIiBcIkNcIiBcIkNcIiBcIkFcIiBcIkNcIiBcIkFcIiBcIkFcIiBcIkFcIiBcIkNcIiBcIkFcIiBcIkdcIiBcIkFcIiBcIkdcIiBcIkFcIiBcIkNcIiBcIlRcIlxuIn0= -->
+<pre><code> [1] &quot;A&quot; &quot;T&quot; &quot;G&quot; &quot;T&quot; &quot;C&quot; &quot;A&quot; &quot;C&quot; &quot;C&quot; &quot;A&quot; &quot;C&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;C&quot; &quot;A&quot; &quot;G&quot; &quot;A&quot; &quot;G&quot; &quot;A&quot; &quot;C&quot; &quot;T&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQoVHJhbnNjcmlwY2lvbihzZXFfZG5hID0gc2VxX2RuYSkpXG5gYGAifQ== -->
+<pre class="r"><code>print(Transcripcion(seq_dna = seq_dna))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcIkFcIiBcIlVcIiBcIkdcIiBcIlVcIiBcIkNcIiBcIkFcIiBcIkNcIiBcIkNcIiBcIkFcIiBcIkNcIiBcIkFcIiBcIkFcIiBcIkFcIiBcIkNcIiBcIkFcIiBcIkdcIiBcIkFcIiBcIkdcIiBcIkFcIiBcIkNcIiBcIlVcIlxuIn0= -->
+<pre><code> [1] &quot;A&quot; &quot;U&quot; &quot;G&quot; &quot;U&quot; &quot;C&quot; &quot;A&quot; &quot;C&quot; &quot;C&quot; &quot;A&quot; &quot;C&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;C&quot; &quot;A&quot; &quot;G&quot; &quot;A&quot; &quot;G&quot; &quot;A&quot; &quot;C&quot; &quot;U&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <p>Sacar la información de <a href="https://cran.r-project.org/web/packages/bioseq/vignettes/intro-bioseq.html">aquí</a></p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueF9kbmEgPC0gZG5hKFwiQVRHVENBQ0NBQ0FBQUNBR0FHQUNUXCIpXG54X2RuYVxuYGBgIn0= -->
-<pre class="r"><code>x_dna &lt;- dna(&quot;ATGTCACCACAAACAGAGACT&quot;)
-x_dna</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueF9kbmFcblxuYGBgIn0= -->
+<pre class="r"><code>x_dna
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRE5BIHZlY3RvciBvZiAxIHNlcXVlbmNlc1xuPiAgIEFUR1RDQUNDQUNBQUFDQUdBR0FDVFxuIn0= -->
+<pre><code>DNA vector of 1 sequences
+&gt;   ATGTCACCACAAACAGAGACT</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKHhfZG5hKVxuYGBgIn0= -->
+<pre class="r"><code>str(x_dna)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIEROQSBbMToxXSBBVEdUQ0FDQ0FDQUFBQ0FHQUdBQ1RcbiJ9 -->
+<pre><code> DNA [1:1] ATGTCACCACAAACAGAGACT</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueF9kbmFbWzFdXVxuYGBgIn0= -->
+<pre class="r"><code>x_dna[[1]]</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiRE5BIHZlY3RvciBvZiAxIHNlcXVlbmNlc1xuPiAgIEFUR1RDQUNDQUNBQUFDQUdBR0FDVFxuIn0= -->
 <pre><code>DNA vector of 1 sequences
@@ -1786,8 +1883,9 @@ x_rna</code></pre>
 <!-- rnb-text-begin -->
 <p>Intentar que los alumnos hagan lo que aparece acá…jajajaj <a href="https://cran.r-project.org/web/packages/bioseq/vignettes/ref_database.html">https://cran.r-project.org/web/packages/bioseq/vignettes/ref_database.html</a></p>
 <!-- rnb-text-end -->
+</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayBkZSBsYSBhc2lnbmF0dXJhIGRlIEJpb0luZm9ybcOhdGljYSIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKTG8gcHJpbWVybyBxdWUgbmVjZXNpdGFyZW1vcyBzZXLDoSBpbnN0YWxhciBlbCBwYXF1ZXRlIGRlIFIgcXVlIG5vcyBwZXJtaXRpcsOhIHRyYWJqYXIgY29uIGRhdG9zIGRlIHNlY3VlbmNpYQoKYGBge3Igd2FybmluZz1GQUxTRSwgbWVzc2FnZT1GQUxTRX0KI2luc3RhbGwucGFja2FnZXMoImJpb3NlcSIpCmxpYnJhcnkoYmlvc2VxKQpgYGAKCgpTYWNhciBsYSBpbmZvcm1hY2nDs24gZGUgW2FxdcOtXShodHRwczovL2NyYW4uci1wcm9qZWN0Lm9yZy93ZWIvcGFja2FnZXMvYmlvc2VxL3ZpZ25ldHRlcy9pbnRyby1iaW9zZXEuaHRtbCkgCgpgYGB7cn0KeF9kbmEgPC0gZG5hKCJBVEdUQ0FDQ0FDQUFBQ0FHQUdBQ1QiKQp4X2RuYQpgYGAKCmBgYHtyfQp4X3JuYSA8LSBzZXFfdHJhbnNjcmliZSh4X2RuYSkKeF9ybmEKYGBgCgpJbnRlbnRhciBxdWUgbG9zIGFsdW1ub3MgaGFnYW4gbG8gcXVlIGFwYXJlY2UgYWPDoS4uLmphamFqYWoKW2h0dHBzOi8vY3Jhbi5yLXByb2plY3Qub3JnL3dlYi9wYWNrYWdlcy9iaW9zZXEvdmlnbmV0dGVzL3JlZl9kYXRhYmFzZS5odG1sXShodHRwczovL2NyYW4uci1wcm9qZWN0Lm9yZy93ZWIvcGFja2FnZXMvYmlvc2VxL3ZpZ25ldHRlcy9yZWZfZGF0YWJhc2UuaHRtbCkKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayBkZSBsYSBhc2lnbmF0dXJhIGRlIEJpb0luZm9ybcOhdGljYSIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKTG8gcHJpbWVybyBxdWUgbmVjZXNpdGFyZW1vcyBzZXLDoSBpbnN0YWxhciBlbCBwYXF1ZXRlIGRlIFIgcXVlIG5vcyBwZXJtaXRpcsOhIHRyYWJqYXIgY29uIGRhdG9zIGRlIHNlY3VlbmNpYQoKYGBge3Igd2FybmluZz1GQUxTRSwgbWVzc2FnZT1GQUxTRX0KI2luc3RhbGwucGFja2FnZXMoImJpb3NlcSIpCmxpYnJhcnkoYmlvc2VxKQpgYGAKCgpgYGB7cn0Kc2VxX2RuYSA8LSBjKCJBVEdUQ0FDQ0FDQUFBQ0FHQUdBQ1QiKQpzZXFfZG5hCmBgYAoKYGBge3J9CnN0cihzZXFfZG5hKQpgYGAKCmBgYHtyfQpjb250YXJfbnVjbGVvdGlkb3MgPC0gZnVuY3Rpb24oc2VxX2RuYSA9IHNlcV9kbmEpewogIGNvbnRlb19udWNsZW90aWRvcyA9IHVubGlzdChzdHJzcGxpdCh4ID0gc2VxX2RuYSwgc3BsaXQgPSAiIiwgZml4ZWQgPSBUUlVFKSkKICBwcmludCh0YWJsZShjb250ZW9fbnVjbGVvdGlkb3MpKQp9CmBgYAoKYGBge3J9CmNvbnRhcl9udWNsZW90aWRvcyhzZXFfZG5hID0gc2VxX2RuYSkKYGBgCgojIDIuLSBUcmFuc2NyaXBjacOzbgoKYGBge3J9ClRyYW5zY3JpcGNpb24gPC0gZnVuY3Rpb24oc2VxX2RuYSA9IHNlcV9kbmEpewogIHNlcV9kbmEgPSB1bmxpc3Qoc3Ryc3BsaXQoeCA9IHNlcV9kbmEsIHNwbGl0ID0gIiIsIGZpeGVkID0gVFJVRSkpCiBzZXFfYXJuID0gc3RyaW5ncjo6c3RyX3JlcGxhY2VfYWxsKHNlcV9kbmEsICJUIiwgIlUiKQogcmV0dXJuKHNlcV9hcm4pCn0KYGBgCgoKYGBge3J9CnByaW50KHNlcV9kbmEpCnByaW50KFRyYW5zY3JpcGNpb24oc2VxX2RuYSA9IHNlcV9kbmEpKQpgYGAKCgoKU2FjYXIgbGEgaW5mb3JtYWNpw7NuIGRlIFthcXXDrV0oaHR0cHM6Ly9jcmFuLnItcHJvamVjdC5vcmcvd2ViL3BhY2thZ2VzL2Jpb3NlcS92aWduZXR0ZXMvaW50cm8tYmlvc2VxLmh0bWwpIAoKYGBge3J9CnhfZG5hIDwtIGRuYShzZXFfZG5hKQp4X2RuYQpgYGAKCmBgYHtyfQpzdHIoeF9kbmEpCmBgYAoKYGBge3J9CgpgYGAKCgpgYGB7cn0KeF9kbmFbWzFdXQpgYGAKCgoKYGBge3J9Cnhfcm5hIDwtIHNlcV90cmFuc2NyaWJlKHhfZG5hKQp4X3JuYQpgYGAKCkludGVudGFyIHF1ZSBsb3MgYWx1bW5vcyBoYWdhbiBsbyBxdWUgYXBhcmVjZSBhY8OhLi4uamFqYWphagpbaHR0cHM6Ly9jcmFuLnItcHJvamVjdC5vcmcvd2ViL3BhY2thZ2VzL2Jpb3NlcS92aWduZXR0ZXMvcmVmX2RhdGFiYXNlLmh0bWxdKGh0dHBzOi8vY3Jhbi5yLXByb2plY3Qub3JnL3dlYi9wYWNrYWdlcy9iaW9zZXEvdmlnbmV0dGVzL3JlZl9kYXRhYmFzZS5odG1sKQoK</div>
 
 
 
