@@ -5,6 +5,7 @@ title:    |
 author:    | 
  | **Antonio Canepa, Ph.D.**
  | *[email](mailto:ajcanepa@ubu.es)* // [twitter](https://twitter.com/OMDataScience)
+date: "Viernes 17 de febrero de 2023"
 output:
   html_document:
     df_print: paged
