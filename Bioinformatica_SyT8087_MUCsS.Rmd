@@ -64,7 +64,6 @@ Para poder generar una cadena complementaria de ADN, deberemos seguir las reglas
 Podemos crear una función que realice esta acción a la que llamaremos `Complementaria()`. No es problema si no entiendes lo que sucede dentro de la función, pero es recomendable que intentes *mirar las tripas* de la función:
 ```{r}
 Complementaria <- function(secuencia_dna = seq_dna){
-  secuencia_dna = unlist(strsplit(x = secuencia_dna, split = "", fixed = TRUE))
   complementaria_adn = chartr("ATGC","TACG", secuencia_dna)
   complementaria_adn = paste(complementaria_adn, collapse = "")
   return(complementaria_adn)
@@ -110,17 +109,22 @@ seq_complement(x_dna)
 Como podemos ver, hemos sido capaces de recrear la cadena complementaria y gracias al uso de funciones *ad-hoc* para este tipo de análisis el resultado luce bastante mejor, aunque en escencia es lo mismo que hemos creado a mano más arriba.  
 
 # 3.- Transcripción
-Cuando vamos de camino a generar una proteína, necesitamos sacar la información desde dentro del núcleo al exterior y para ello usamos el ARN mensajero `ARNm`. Es decir, necesitamos **transcribir** la información desde la cadena de ADN a una cadena de ARN. Como ya sabréis las correspondencias en este caso cambian y tenemos que la *Timina* es reemplazada por el *Uracilo*, por lo que las parejas ahora son **Adenina-Uracilo* (**`A-U`**) y *Citosina-Guanina* (**`C-G`**). 
+Cuando vamos de camino a generar una proteína, necesitamos sacar la información desde dentro del núcleo al exterior y para ello usamos el ARN mensajero `ARNm`. Es decir, necesitamos **transcribir** la información desde la cadena de ADN a una cadena de ARN. 
 
-En términos de programación, lo único que tenemos que hacer es que 
 
+```{r, echo=FALSE, out.width="90%", fig.align = "center", fig.cap = 'Detalle del proceso de la transcripción', warning=FALSE, message=FALSE}
+knitr::include_graphics("Images/Transcripcion_es_0.jpg")
+```
+
+Como ya sabréis las correspondencias en este caso cambian y tenemos que la *Timina* es reemplazada por el *Uracilo*, por lo que las parejas ahora son **Adenina-Uracilo* (**`A-U`**) y *Citosina-Guanina* (**`C-G`**). 
+
+En términos de programación, lo único que tenemos que hacer es repetir el paso de cambiar las letras, en este caso solo intercambiando la T por la U: 
 
 ```{r}
 Transcripcion <- function(secuencia_dna = seq_dna){
-  secuencia_dna = unlist(strsplit(x = secuencia_dna, split = "", fixed = TRUE))
- seq_arn = chartr("T","U", secuencia_dna)
- seq_arn = paste(seq_arn, collapse = "")
- return(seq_arn)
+  seq_arn = chartr("T","U", secuencia_dna)
+  seq_arn = paste(seq_arn, collapse = "")
+  return(seq_arn)
 }
 ```
 
@@ -128,6 +132,8 @@ Transcripcion <- function(secuencia_dna = seq_dna){
 print(seq_dna)
 Transcripcion(seq_dna)
 ```
+
+
 
 ```{r}
 x_dna
