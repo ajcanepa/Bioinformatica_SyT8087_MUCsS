@@ -14,22 +14,31 @@ always_allow_html: true
 ---
 
 # 1.- Introducción
-Lo primero que necesitaremos será instalar el paquete de R que nos permitirá trabjar con datos de secuencia
 
-```{r warning=FALSE, message=FALSE}
-#install.packages("bioseq")
-library(bioseq)
+Esta es una actividad complementaria, pero altamente recoendable a seguir ya que nos introduce en el mundo de la bioinformática con códigos muy sencillos y usando herramientas disponibles para el análisis de secuencias que nos facilitarán mucho la vida.
+
+Comenzaremos con el trabajo sobre una secuencia "ficticia" de ADN, recordando de dónde provienen tenemos el siguiente esquema:
+
+```{r, echo=FALSE, out.width="90%", fig.align = "center", fig.cap = 'Esquema transcripción', warning=FALSE, message=FALSE}
+knitr::include_graphics("Images/Bioinformatica_Schema.png")
 ```
 
+Por lo que lo primero que veremos cuando tengamos una lectura de ADN, será una secuencia nucleotídica del tipo:
 
 ```{r}
 seq_dna <- c("ATGTCACCACAAACAGAGACT")
 seq_dna
 ```
 
+Vemos que nuestro ejemplo de cadena `seq_dna` no es más que un conjunto de letras. Dentro de R (y otros lenguajes de programación) a esto se le conoce como **character string** o **cadena de caracteres**. Para entender cómo lo está leyendo R, le pediremos que nos muestre su *estructura* usando la función `str()`.
+
 ```{r}
 str(seq_dna)
 ```
+
+Las tres letras señaladas **chr** hacen referencia a que es un *character*, es decir una cadena de caracteres que contienen los nucleótidos de nuestra secuencia.
+
+Como primer ejercicio de programación, vamos a crear una función muy sencilla llamada `contar_nucleotidos()`, que nos permitirá, como dice su nombre, contar el número de cada uno de los nucleótidos que tenemos en nuestra secuencia:
 
 ```{r}
 contar_nucleotidos <- function(secuencia_dna = seq_dna){
@@ -38,12 +47,46 @@ contar_nucleotidos <- function(secuencia_dna = seq_dna){
 }
 ```
 
+Cuando ejecutamos la caja de código superior vemos que nada sucede y esto es correcto, no vemos que suceda nada porque cuando creamos una función no estamos solicitando un resultado, solamente estamos creando una **receta** para trabajar con nuestros datos.
+
+Tampoco importa si no entendemos al 100&% la función que estamos creando. Comentaros que el paso fundamental de la función es el uso de `unlist()` y de `strsplit()`.
+
+Ahora sí, con nuestra función recién creada vamos a "*contar*" cuántos nucleótidos de cada tipo hay:
+
 ```{r}
 contar_nucleotidos(secuencia_dna = seq_dna)
 ```
-# 2.- Cadena complementaria
+A continuación, revisaremos algunos de los pasos más fundamentales en *BioInformática* y para ello nos ayudaremos de funciones que ya existen (¡no tendremos que programarlas nosotros! ;P ).
 
-Sacar la información de [aquí](https://cran.r-project.org/web/packages/bioseq/vignettes/intro-bioseq.html) 
+# 2.- Cadena complementaria
+Para poder generar una cadena complementaria de ADN, deberemos seguir las reglas de apareamiento de bases nitrógenedas, donde las correspondencias son *Adenina-Timina* (**`A-T`**) y *Citosina-Guanina* (**`C-G`**). Por lo tanto, cada vez que un nucleótido de nuestra cadena sea `A`, en la cadena complementaria correspondiente, el nucleótido que le tocaría sería el `T`. 
+
+Podemos crear una función que realice esta acción a la que llamaremos `Complementaria()`. No es problema si no entiendes lo que sucede dentro de la función, pero es recomendable que intentes *mirar las tripas* de la función:
+```{r}
+Complementaria <- function(secuencia_dna = seq_dna){
+  secuencia_dna = unlist(strsplit(x = secuencia_dna, split = "", fixed = TRUE))
+  complementaria_adn = chartr("ATGC","TACG", secuencia_dna)
+  complementaria_adn = paste(complementaria_adn, collapse = "")
+  return(complementaria_adn)
+}
+```
+
+Para ver si la función `Complementaria()` está haciendo lo que toca, imprimeremos ambas secuencias:
+```{r}
+seq_dna
+Complementaria(seq_dna)
+```
+
+Ahora bien, para facilitarnos la vida, usaremos el paquete de R llamado `bioseq`, que como su nombre nos indica es *una caja de herramientas para manipular secuencias biológicas* ([Keck, 2022](https://cran.r-project.org/web/packages/bioseq/index.html)). 
+
+Para ello necesitaremos instalarlo (descargarlo desde la web) usando la función `install.packages()`, y una vez descargado, para poder usarlo debemos *activarlo*/*encenderlo*, con la función `library()`. 
+
+```{r warning=FALSE, message=FALSE}
+install.packages("bioseq")
+library("bioseq")
+```
+
+Sin entrar en conceptos específicos de programación, lo primero que deberemos hacer será crear un objeto llamado `x_dna` que usando la función `dna()` y nuestra secuencia de nucleótidos (`seq_dna`), creará un objeto de clase `"bioseq_dna"`.
 
 ```{r}
 # library(bioseq)
@@ -51,25 +94,44 @@ x_dna <- dna(seq_dna)
 x_dna
 ```
 
+Al imprimir el objeto `xdna` vemos que *luce diferente* y esta es una de las particularidades y ayudas que representa trabajar con paquetes específicos para trabajos bioinformáticos, en este caso.
+
+Lo importante es que tenemos una sola secuencia y los nucleótidos se pintan de un color específico cada uno.
+
+Si te interesa mirar y revisar en detalle la ayuda de este paquete la información la puedes encontrar [aquí](https://cran.r-project.org/web/packages/bioseq/vignettes/intro-bioseq.html).
+
+Entonces, para poder crear la cadena complementaria vamos a usar la función `seq_complement()` a la que le pasamos nuestro objeto `x_dna`. Para una mejor comparación, vamos a imprimir en pantalla ambas secuencias:
+
 ```{r}
+x_dna
 seq_complement(x_dna)
 ```
 
+Como podemos ver, hemos sido capaces de recrear la cadena complementaria y gracias al uso de funciones *ad-hoc* para este tipo de análisis el resultado luce bastante mejor, aunque en escencia es lo mismo que hemos creado a mano más arriba.  
 
 # 3.- Transcripción
+Cuando vamos de camino a generar una proteína, necesitamos sacar la información desde dentro del núcleo al exterior y para ello usamos el ARN mensajero `ARNm`. Es decir, necesitamos **transcribir** la información desde la cadena de ADN a una cadena de ARN. Como ya sabréis las correspondencias en este caso cambian y tenemos que la *Timina* es reemplazada por el *Uracilo*, por lo que las parejas ahora son **Adenina-Uracilo* (**`A-U`**) y *Citosina-Guanina* (**`C-G`**). 
+
+En términos de programación, lo único que tenemos que hacer es que 
+
 
 ```{r}
-Transcripcion <- function(seq_dna = seq_dna){
-  seq_dna = unlist(strsplit(x = seq_dna, split = "", fixed = TRUE))
- seq_arn = stringr::str_replace_all(seq_dna, "T", "U")
+Transcripcion <- function(secuencia_dna = seq_dna){
+  secuencia_dna = unlist(strsplit(x = secuencia_dna, split = "", fixed = TRUE))
+ seq_arn = chartr("T","U", secuencia_dna)
+ seq_arn = paste(seq_arn, collapse = "")
  return(seq_arn)
 }
 ```
 
-
 ```{r}
 print(seq_dna)
-print(Transcripcion(seq_dna = seq_dna))
+Transcripcion(seq_dna)
+```
+
+```{r}
+x_dna
+seq_transcribe(x_dna)
 ```
 
 
@@ -78,9 +140,11 @@ x_rna <- seq_transcribe(x_dna)
 x_rna
 ```
 
-# 4.- Caso Práctico
-Este caso práctico está basado en una de las ayudas del paquete `bioseq` que se puede visitar [aquí](https://cran.r-project.org/web/packages/bioseq/vignettes/ref_database.html).
 
+
+# 4.- Caso Práctico
+
+Este caso práctico está basado en una de las ayudas del paquete `bioseq` que se puede visitar [aquí](https://cran.r-project.org/web/packages/bioseq/vignettes/ref_database.html).
 
 ```{r warning=FALSE, message=FALSE}
 library(bioseq)
@@ -95,6 +159,7 @@ fra_data <- read_fasta(fragilaria)
 
 fra_data
 ```
+
 Según el resultado, tenemos un vector de ADN con 41 secuencias. Estas secuencias se obtuvieron directamente del NCBI. Por lo tanto, no están alineadas y tienen diferentes longitudes. Es fácil obtener el rango de longitudes con el siguiente comando:
 
 ```{r}
@@ -116,7 +181,9 @@ fra_data <- fra_data %>%
 
 fra_data
 ```
+
 ### 4.1 Recorte de secuencias
+
 En este ejemplo sólo estamos interesados en una región concreta de las secuencias, un fragmento corto utilizado en muchos estudios de metabarcodificación de diatomeas. Para extraer la región de interés podemos proporcionar la posición de dos nucleótidos, pero esta solución requiere que las secuencias estén alineadas. La solución alternativa consiste en extraer utilizando patrones de nucleótidos. En este caso, utilizaremos los cebadores directo e inverso que delimitan la región del código de barras para recortar las secuencias. En primer lugar, creamos dos vectores de ADN, uno para los cebadores directo e inverso:
 
 ```{r}
@@ -157,6 +224,7 @@ fra_data
 ```
 
 ### 4.2 Secuencias de consenso y filogenia
+
 Ahora queremos reconstruir un árbol filogenético para las secuencias. Podemos incluir todas las secuencias en el árbol, pero para mayor claridad queremos mantener sólo una secuencia por taxón. En lugar de seleccionar una secuencia al azar, calculamos una secuencia de consenso para cada taxón utilizando la función seq_consensus(). Hay diferentes métodos para calcular una secuencia de consenso implementados en la función, puede consultar el manual para más detalles. El método por defecto utilizado a continuación utiliza la regla de la mayoría.
 
 ```{r}
@@ -169,7 +237,6 @@ fra_consensus
 
 A continuación, utilizaremos ape para hacer una rápida reconstrucción filogenética de estas secuencias. Podemos utilizar la función as_DNAbin para convertir un tibble en un objeto DNAbin y luego utilizar las funciones de ape para reconstruir y trazar un árbol filogenético con el algoritmo BIONJ basado en distancias.
 
-
 ```{r message=FALSE, warning=FALSE}
 fra_consensus %>% 
   as_DNAbin(consensus_barcode, taxa) %>% 
@@ -177,7 +244,9 @@ fra_consensus %>%
   ape::bionj() %>% 
   plot()
 ```
+
 ### 4.3 Agrupación de secuencias
+
 El árbol anterior sugiere que varias secuencias son exactamente iguales. Esto puede evaluarse rápidamente:
 
 ```{r warning=FALSE, message=FALSE}
@@ -206,7 +275,6 @@ fra_consensus <-
 fra_consensus
 ```
 
-
 ```{r message=FALSE, warning=FALSE}
 fra_consensus %>% 
   as_DNAbin(consensus_barcode, taxa_group) %>% 
@@ -214,9 +282,11 @@ fra_consensus %>%
   ape::bionj() %>% 
   plot()
 ```
+
 Es importante señalar que este árbol no es una reconstrucción filogenética exacta, pero puede ayudar a visualizar las relaciones jerárquicas entre las secuencias. Esto es especialmente útil con conjuntos de datos más grandes para detectar clados polifiléticos no resueltos por la región del código de barras.
 
 ### 4.4 Exportar datos
+
 Cuando estamos contentos con los resultados, normalmente queremos exportar los datos. En este caso, podríamos exportar directamente el marco de datos utilizando write_csv(). Sin embargo, podría ser más conveniente exportar secuencias en FASTA para abrirlas en otro software más tarde. Esto se puede conseguir utilizando la función write_fasta().
 
 ```{r warning=FALSE, message=FALSE}
