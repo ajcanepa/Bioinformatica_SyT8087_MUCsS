@@ -138,44 +138,77 @@ Transcripcion(seq_dna)
 Otra manera, más sencilla si se quiere, es el uso de la función `seq_transcribe()` del paquete `bioseq`. Fundamentalmente hace lo mismo que nuestra función, pero resaltando los resultados de una manera mucho más visual. En este caso el objeto que deberemos pasar es el objeto `x_dna` que posee la clase  `"bioseq_dna"`. Tal que:
 
 ```{r}
+x_rna <- seq_transcribe(x_dna)
+x_rna
+```
+
+Para evaluar los cambios imprimiremos en pantalla tanto el ADN como el ARN.
+
+```{r}
 x_dna
-seq_transcribe(x_dna)
+x_rna
 ```
 
 
 # 4.- Traducir secuencias en aminoácidos
+Estando ahora fuera del núcleo, la información transportada como `ARNm` es procesada por el ribosoma y el ARN d etransfeencia `ARNt` para generar una cadena de polipéptidos, que dará a lugar a un proteína que será funcional. Este poceso denominado *traducción* puede verse en el siguiente esquema:
 
 ```{r, echo=FALSE, out.width="90%", fig.align = "center", fig.cap = 'Esquema de la traducción', warning=FALSE, message=FALSE}
 knitr::include_graphics("Images/Traduccion_es_0.jpg")
 ```
-
+Los ribosomas y el `ARNt` solo pueden leer trozos o **codones** de `ARNm` que consisten en 3 aminoácidos. Estos tres aminoácidos son lueg convertidos a polipéptidos según la siguiente tabla de códigos genéticos
 
 ```{r, echo=FALSE, out.width="90%", fig.align = "center", fig.cap = 'Tabla de Aminoácidos según ARN', warning=FALSE, message=FALSE}
-knitr::include_graphics("Images/amino-acid-table.jpg")
+knitr::include_graphics("Images/Codigo-genetico_es_0.jpg")
 ```
 
+Como ejemplo, usaremos la función `seq_translate()` del paquete `bioseq` para traducir una secuencia de ARNm en Proteínas.
 
 ```{r}
-seq_translate()
+seq_translate(x_rna)
 ```
 
-
+Veremos con solo un ejemplo más, que las funciones de este paquete `bioseq` nos permiten traducir a proteína pasándole directamente unas cadenas de AND, realizando internamente y sin que veamos el esultado, la transformación a ARNm y su traducción, tal que:
 ```{r}
 x <- dna(c("ATGCAGA", "GGR","TTGCCTAGKTGAACC", "AGGNGC", "NNN"))
-```
-
-
-```{r}
 seq_translate(x)
 ```
 
-
 ### 4.1 Visualización de proteínas
+Por último, revisaremos algunas heramientas para visualizar proteínas, ya que gracias a los nuevos algoritmos, procesadores y lenguajes de programación esta tarea resulta ahora mucho más sencilla.
 
-shinyNGLVieweR - Visualize and interact with Protein Data Bank (PDB) and structural files in the web browser [GitHub](https://github.com/nvelden/shinyNGLVieweR), [ShinyApp](https://niels-van-der-velden.shinyapps.io/shinyNGLVieweR/)
+La herramienta que revisaremos es un un **paquete** de R llamado "*NGLVieweR*" y su repositorio en github puede visitarse clicando [aquí](https://github.com/nvelden/NGLVieweR/).
 
+```{r message=FALSE, warning=FALSE}
+install.packages("NGLVieweR")
+library("NGLVieweR")
+```
 
-Probar a cargar la "Structure of the SARS-CoV-2 spike glycoprotein" con el código PBD: **6VXX**. Página del [Protein Data Bank ](https://www.rcsb.org/structure/6vxx).
+Para visualizar las proteínas necesitamos su código del "**Protein Data Bank**" o "**Banco de datos de proteínas**", disponible en [https://www.rcsb.org/](https://www.rcsb.org/).
+
+Buscaremos a modo de ejemplo la proteína **7CID**, catalogada como una estructura cristalina de *Pseudomonas aeruginosa* "**LpxC**" en complejo con inhibidor PAO1. Puede visitarse clicando [aquí](https://www.rcsb.org/structure/7CID).
+
+```{r}
+#Load protein by PDB code
+NGLVieweR("7CID") %>%
+addRepresentation("cartoon")
+```
+
+Este paquete también posee su propia aplicación **shiny** ("*shinyNGLVieweR*"), que se programa en su totalidad usando el lenguaje de programación R. El repositorio en GitHub de esta *APP* puede visitarse clicando [aquí](https://github.com/nvelden/shinyNGLVieweR); o bien para acceder e interactuar con la **APP Shiny**, deberemos acceder al siguiente [enlace](https://niels-van-der-velden.shinyapps.io/shinyNGLVieweR/).
+
+Como tarea deberéis interactuar con la aplicación Shiny ("**shinyNGLVieweR**") y probar a cargar la estructura de la glicoproteína espiga (*spike*) del SARS-CoV-2 , usando el código del PBD: **6VXX**. Puedes ver esta protéina directament en la página del [Protein Data Bank ](https://www.rcsb.org/structure/6vxx).
+
+Acá os dejo una animación de esta glicoproteína.
+
+```{r message=TRUE, warning=FALSE, echo=FALSE}
+NGLVieweR("6VXX") %>%
+  stageParameters(backgroundColor = "white", zoomSpeed = 1) %>%
+  addRepresentation("cartoon",
+    param = list(name = "cartoon", colorScheme = "residueindex")
+  ) %>%
+  setSpin()
+```
+
 
 
 
