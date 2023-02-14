@@ -170,8 +170,13 @@ seq_translate(x)
 ```
 
 
-```{r}
-```
+### 4.1 Visualización de proteínas
+
+shinyNGLVieweR - Visualize and interact with Protein Data Bank (PDB) and structural files in the web browser [GitHub](https://github.com/nvelden/shinyNGLVieweR), [ShinyApp](https://niels-van-der-velden.shinyapps.io/shinyNGLVieweR/)
+
+
+Probar a cargar la "Structure of the SARS-CoV-2 spike glycoprotein" con el código PBD: **6VXX**. Página del [Protein Data Bank ](https://www.rcsb.org/structure/6vxx).
+
 
 
 # 5.- Caso Práctico
