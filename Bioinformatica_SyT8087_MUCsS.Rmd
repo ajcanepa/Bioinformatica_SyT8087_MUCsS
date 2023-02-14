@@ -12,6 +12,9 @@ output:
     toc_float: yes
 always_allow_html: true
 ---
+```{r, echo=FALSE, out.width="20%", fig.align = "right", fig.cap = '', warning=FALSE, message=FALSE}
+knitr::include_graphics("Images/ubu.jpg")
+```
 
 # 1.- Introducción
 

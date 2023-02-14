@@ -199,9 +199,12 @@ addRepresentation("cartoon")
 
 Este paquete también posee su propia aplicación **shiny** ("*shinyNGLVieweR*"), que se programa en su totalidad usando el lenguaje de programación R. El repositorio en GitHub de esta *APP* puede visitarse clicando [aquí](https://github.com/nvelden/shinyNGLVieweR); o bien para acceder e interactuar con la **APP Shiny**, deberemos acceder al siguiente [enlace](https://niels-van-der-velden.shinyapps.io/shinyNGLVieweR/).
 
-Como tarea deberéis interactuar con la aplicación Shiny ("**shinyNGLVieweR**") y probar a cargar la estructura de la glicoproteína espiga (*spike*) del SARS-CoV-2 , usando el código del PBD: **6VXX**. Puedes ver esta protéina directament en la página del [Protein Data Bank ](https://www.rcsb.org/structure/6vxx).
+#### Tarea (optativa)
+Como **tarea** deberéis interactuar con la aplicación Shiny ("**shinyNGLVieweR**") y probar a cargar la estructura de la glicoproteína espiga (*spike*) del **SARS-CoV-2** , usando el código del PBD: **6VXX**. Puedes ver esta protéina directamente en la página del [Protein Data Bank ](https://www.rcsb.org/structure/6vxx).
 
-Acá os dejo una animación de esta glicoproteína.
+En UbuVirtual en el entregable del curso, deberéis adjuntar imágenes de esta (u otra proteína) que hayáis explorado.
+
+Acá os dejo una animación de la glicoproteína espiga que es una de las principales responsables en activar los síntomas conocidos como "*COVID-19*".
 
 ```{r message=TRUE, warning=FALSE, echo=FALSE}
 NGLVieweR("6VXX") %>%
