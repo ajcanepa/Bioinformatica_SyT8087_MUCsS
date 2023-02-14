@@ -145,6 +145,10 @@ seq_transcribe(x_dna)
 
 # 4.- Traducir secuencias en aminoácidos
 
+```{r, echo=FALSE, out.width="90%", fig.align = "center", fig.cap = 'Esquema de la traducción', warning=FALSE, message=FALSE}
+knitr::include_graphics("Images/Traduccion_es_0.jpg")
+```
+
 
 ```{r, echo=FALSE, out.width="90%", fig.align = "center", fig.cap = 'Tabla de Aminoácidos según ARN', warning=FALSE, message=FALSE}
 knitr::include_graphics("Images/amino-acid-table.jpg")
