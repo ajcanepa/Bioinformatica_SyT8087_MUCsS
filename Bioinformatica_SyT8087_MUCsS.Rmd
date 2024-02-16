@@ -5,6 +5,7 @@ title:    |
 author:    | 
  | **Antonio Canepa, Ph.D.**
  | *[email](mailto:ajcanepa@ubu.es)* // [twitter](https://twitter.com/OMDataScience)
+date: "`r format(Sys.time(), '%B, %Y')`"
 output:
   html_document:
     df_print: paged
