@@ -19,7 +19,7 @@ knitr::include_graphics("Images/ubu.jpg")
 
 # 1.- Introducción
 
-Esta es una actividad complementaria, pero altamente recoendable a seguir ya que nos introduce en el mundo de la bioinformática con códigos muy sencillos y usando herramientas disponibles para el análisis de secuencias que nos facilitarán mucho la vida.
+Esta es una actividad complementaria, pero altamente recomendable a seguir ya que nos introduce en el mundo de la bioinformática con códigos muy sencillos y usando herramientas disponibles para el análisis de secuencias que nos facilitarán mucho la vida.
 
 Comenzaremos con el trabajo sobre una secuencia "ficticia" de ADN, recordando de dónde provienen tenemos el siguiente esquema:
 
@@ -110,7 +110,7 @@ x_dna
 seq_complement(x_dna)
 ```
 
-Como podemos ver, hemos sido capaces de recrear la cadena complementaria y gracias al uso de funciones *ad-hoc* para este tipo de análisis el resultado luce bastante mejor, aunque en escencia es lo mismo que hemos creado a mano más arriba.  
+Como podemos ver, hemos sido capaces de recrear la cadena complementaria y gracias al uso de funciones *ad-hoc* para este tipo de análisis el resultado luce bastante mejor, aunque en esencia es lo mismo que hemos creado a mano más arriba.  
 
 # 3.- Transcripción
 Cuando vamos de camino a generar una proteína, necesitamos sacar la información desde dentro del núcleo al exterior y para ello usamos el ARN mensajero `ARNm`. Es decir, necesitamos **transcribir** la información desde la cadena de ADN a una cadena de ARN. 
