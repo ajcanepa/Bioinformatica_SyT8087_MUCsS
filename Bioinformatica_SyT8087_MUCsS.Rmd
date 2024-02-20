@@ -19,7 +19,7 @@ knitr::include_graphics("Images/ubu.jpg")
 
 # 1.- Introducción
 
-Esta es una actividad complementaria, pero altamente recoendable a seguir ya que nos introduce en el mundo de la bioinformática con códigos muy sencillos y usando herramientas disponibles para el análisis de secuencias que nos facilitarán mucho la vida.
+Esta es una actividad complementaria, pero altamente recomendable a seguir ya que nos introduce en el mundo de la bioinformática con códigos muy sencillos y usando herramientas disponibles para el análisis de secuencias que nos facilitarán mucho la vida.
 
 Comenzaremos con el trabajo sobre una secuencia "ficticia" de ADN, recordando de dónde provienen tenemos el siguiente esquema:
 
@@ -225,7 +225,7 @@ library(bioseq)
 library(tidyverse)
 ```
 
-Los datos genéticos suelen entregarse en formato FASTA. En este ejemplo utilizaremos secuencias rbcL de especies de Fragilaria recuperadas del NCBI y disponibles directamente como FASTA sin analizar en el paquete. Podemos utilizar la función read_fasta para leer directamente un archivo FASTA en R. Aquí leemos un vector de caracteres ya disponible en R, pero la mayoría de las veces el argumento file se utilizará para pasar una ruta a un archivo disponible localmente o a través de la red.
+Los datos genéticos suelen entregarse en formato FASTA. En este ejemplo utilizaremos secuencias `rbcL` de especies de *Fragilaria* recuperadas del NCBI y disponibles directamente como FASTA sin analizar en el paquete. Podemos utilizar la función `read_fasta()` para leer directamente un archivo FASTA en R. Aquí leemos un vector de caracteres ya disponible en R, pero la mayoría de las veces el argumento file se utilizará para pasar una ruta a un archivo disponible localmente o a través de la red.
 
 ```{r}
 data(fragilaria, package = "bioseq")
