@@ -4,7 +4,7 @@ title:    |
  | Máster Universitario en Ciencias de la Salud
 author:    | 
  | **Antonio Canepa, Ph.D.**
- | *[email](mailto:ajcanepa@ubu.es)* // [twitter](https://twitter.com/OMDataScience)
+ | *[email](mailto:ajcanepa@ubu.es)* // [Web-UBU](https://investigacion.ubu.es/investigadores/35040/detalle) // [LinkedIn](https://www.linkedin.com/in/antonio-canepa-oneto-56b7b633/)
 date: "`r format(Sys.time(), '%B, %Y')`"
 output:
   html_document:
