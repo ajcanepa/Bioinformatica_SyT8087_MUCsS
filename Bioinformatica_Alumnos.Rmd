@@ -63,7 +63,7 @@ contar_nucleotidos(secuencia_dna = seq_dna)
 A continuación, revisaremos algunos de los pasos más fundamentales en *BioInformática* y para ello nos ayudaremos de funciones que ya existen (¡no tendremos que programarlas nosotros! ;P ).
 
 # 2.- Cadena complementaria
-Para poder generar una cadena complementaria de ADN, deberemos seguir las reglas de apareamiento de bases nitrógenedas, donde las correspondencias son *Adenina-Timina* (**`A-T`**) y *Citosina-Guanina* (**`C-G`**). Por lo tanto, cada vez que un nucleótido de nuestra cadena sea `A`, en la cadena complementaria correspondiente, el nucleótido que le tocaría sería el `T`. 
+Para poder generar una cadena complementaria de ADN, deberemos seguir las reglas de apareamiento de bases nitrógenedas, donde las correspondencias son *Adenina-Timina* (**A-T**) y *Citosina-Guanina* (**C-G**). Por lo tanto, cada vez que un nucleótido de nuestra cadena sea `A`, en la cadena complementaria correspondiente, el nucleótido que le tocaría sería el `T`. 
 
 Podemos crear una función que realice esta acción a la que llamaremos `Complementaria()`. No es problema si no entiendes lo que sucede dentro de la función, pero es recomendable que intentes *mirar las tripas* de la función:
 ```{r}
